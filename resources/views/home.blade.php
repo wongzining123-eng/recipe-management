@@ -8,13 +8,18 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
+                    Welcome to the Recipe Management System!
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    @can('isAdmin')
+                        You are logged in as an administrator. You can manage all users, recipes, and categories.
+                    @elsecan('isUser')
+                        You are logged in as a regular user. You can create, edit, and delete your own recipes.
+                    @endcan
                 </div>
             </div>
         </div>
