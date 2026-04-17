@@ -19,7 +19,6 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
             'is_admin' => 0,  
@@ -31,22 +30,10 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'is_admin' => 1,
-            'email' => $this->faker->unique()->safeEmail(),
-            'name' => 'Admin ' . $this->faker->unique()->randomNumber(),
+            'email' => 'admin@gmail.com',
+            'name' => 'Admin',
+            'password' => Hash::make('adminpassword'), 
         ]);
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function unverified()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
-    }
 }

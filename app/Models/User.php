@@ -34,15 +34,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
     // Relationship to Recipe (created one or more recipe)
     public function recipes(): HasMany
     {
