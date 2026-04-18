@@ -9,6 +9,7 @@ use App\Models\Recipe;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
@@ -17,11 +18,29 @@ class RecipeController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View
+ public function index(Request $request): View  
     {
-        $recipes = Recipe::with('user', 'categories')->latest()->paginate(12);
-
-        return view('recipes.index', compact('recipes'));
+        $query = Recipe::with('user', 'categories'); 
+        
+        // Add search functionality
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+        
+        // Add category filter (using relationship since many-to-many)
+        if ($request->filled('category')) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->category);
+            });
+        }
+        
+        $recipes = $query->latest()->paginate(12);
+        
+        // Get all categories for the filter dropdown
+        $categories = Category::orderBy('name')->get();
+        
+        // Pass both to the view
+        return view('recipes.index', compact('recipes', 'categories'));
     }
 
     public function create(): View
