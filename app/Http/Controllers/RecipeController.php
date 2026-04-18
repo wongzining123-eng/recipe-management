@@ -15,7 +15,7 @@ class RecipeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(array('index', 'show'));
     }
 
  public function index(Request $request): View  
@@ -34,7 +34,7 @@ class RecipeController extends Controller
             });
         }
         
-        $recipes = $query->latest()->paginate(12);
+        $recipes = $query->latest()->paginate(8);
         
         // Get all categories for the filter dropdown
         $categories = Category::orderBy('name')->get();
@@ -52,7 +52,6 @@ class RecipeController extends Controller
 
     public function store(StoreRecipeRequest $request): RedirectResponse
     {
-        $imagePath = $request->file('image')->store('recipes', 'public');
 
         $recipe = Recipe::create([
             'user_id'      => auth()->id(),
@@ -63,7 +62,7 @@ class RecipeController extends Controller
             'prep_time'    => $request->prep_time,
             'cook_time'    => $request->cook_time,
             'servings'     => $request->servings,
-            'image'        => $imagePath,
+            'image'        => $request->image,
         ]);
 
         if ($request->filled('categories')) {
@@ -123,5 +122,31 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.index')
             ->with('success', 'Recipe deleted successfully!');
+    }
+
+    public function myRecipes(Request $request): View  
+    {
+        $query = Recipe::with('user', 'categories')
+            ->where('user_id', auth()->id());  // Filter by current user
+        
+        // Add search functionality
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+        
+        // Add category filter
+        if ($request->filled('category')) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->category);
+            });
+        }
+        
+        $recipes = $query->latest()->paginate(12);
+        
+        // Get all categories for the filter dropdown
+        $categories = Category::orderBy('name')->get();
+        
+        // Reuse the same index view
+        return view('recipes.index', compact('recipes', 'categories'));
     }
 }
