@@ -15,7 +15,7 @@ class RecipeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
  public function index(Request $request): View  
@@ -83,6 +83,8 @@ class RecipeController extends Controller
 
     public function edit(Recipe $recipe): View
     {
+        $this->authorize('update', $recipe); 
+
         $categories = Category::orderBy('name')->get();
 
         return view('recipes.edit', compact('recipe', 'categories'));
@@ -90,6 +92,9 @@ class RecipeController extends Controller
 
     public function update(UpdateRecipeRequest $request, Recipe $recipe): RedirectResponse
     {
+
+        $this->authorize('update', $recipe); 
+
         $data = $request->only([
             'title', 'description', 'ingredients', 'instructions',
             'prep_time', 'cook_time', 'servings',
@@ -110,6 +115,8 @@ class RecipeController extends Controller
 
     public function destroy(Recipe $recipe): RedirectResponse
     {
+        $this->authorize('delete', $recipe); 
+
         Storage::disk('public')->delete($recipe->image);
 
         $recipe->delete();
