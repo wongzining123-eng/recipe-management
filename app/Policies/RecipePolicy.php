@@ -30,7 +30,7 @@ class RecipePolicy
      */
     public function view(User $user, Recipe $recipe)
     {
-        return $user->id === $recipe->user_id;
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class RecipePolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class RecipePolicy
      */
     public function update(User $user, Recipe $recipe)
     {
-        return $user->id === $recipe->user_id || $user->role === 'admin';
+        return $user->id === $recipe->user_id || $user->is_admin === true;
     }
 
     /**
@@ -65,7 +65,7 @@ class RecipePolicy
      */
     public function delete(User $user, Recipe $recipe)
     {
-        //
+        return $user->id === $recipe->user_id || $user->is_admin === true;
     }
 
     /**
