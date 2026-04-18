@@ -16,7 +16,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display a listing of categories.
+     * Display a listing of categories (Blade).
      */
     public function index()
     {
@@ -108,4 +108,5 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')
             ->with('success', 'Category deleted successfully!');
     }
+
 }
