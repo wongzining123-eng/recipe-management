@@ -20,7 +20,7 @@ class RecipesTableSeeder extends Seeder
                 'prep_time' => 10,
                 'cook_time' => 15,
                 'servings' => 4,
-                'image' => null,
+                'image' => 'https://i.pinimg.com/1200x/a2/26/07/a226076c1498919907ff9596acfb0874.jpg',
             ],
             [
                 'user_id' => 1,
@@ -31,7 +31,7 @@ class RecipesTableSeeder extends Seeder
                 'prep_time' => 15,
                 'cook_time' => 10,
                 'servings' => 3,
-                'image' => null,
+                'image' => 'https://i.pinimg.com/1200x/72/ac/21/72ac21e30e6fafe5041f7e62cb449138.jpg',
             ],
             [
                 'user_id' => 2,
@@ -42,7 +42,7 @@ class RecipesTableSeeder extends Seeder
                 'prep_time' => 15,
                 'cook_time' => 25,
                 'servings' => 4,
-                'image' => null,
+                'image' => 'https://i.pinimg.com/736x/96/1c/04/961c047c15d9ce5b5b68b0dc47b39a64.jpg',
             ],
             [
                 'user_id' => 2,
@@ -53,7 +53,7 @@ class RecipesTableSeeder extends Seeder
                 'prep_time' => 20,
                 'cook_time' => 30,
                 'servings' => 8,
-                'image' => null,
+                'image' => 'https://i.pinimg.com/736x/2b/b5/fd/2bb5fd2dd315895410ac15781cda716c.jpg',
             ],
             [
                 'user_id' => 3,
@@ -64,7 +64,7 @@ class RecipesTableSeeder extends Seeder
                 'prep_time' => 10,
                 'cook_time' => 0,
                 'servings' => 2,
-                'image' => null,
+                'image' => 'https://i.pinimg.com/1200x/18/2c/06/182c06c96b8041a48af543f51b079c44.jpg',
             ],
         ];
 

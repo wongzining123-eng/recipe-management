@@ -21,9 +21,17 @@ class StoreRecipeRequest extends FormRequest
             'prep_time'    => ['required', 'integer', 'min:0'],
             'cook_time'    => ['required', 'integer', 'min:0'],
             'servings'     => ['required', 'integer', 'min:1'],
-            'image'        => ['required', 'file', 'mimes:jpg,jpeg,png,gif,webp', 'max:2048'],
+            'image'        => ['required', 'url', 'max:2048'],
             'categories'   => ['nullable', 'array'],
             'categories.*' => ['exists:categories,id'],
+        ];
+    }
+
+     public function messages(): array
+    {
+        return [
+            'image_url.required' => 'Please provide an image URL',
+            'image_url.url' => 'Please enter a valid URL (e.g., https://example.com/image.jpg)',
         ];
     }
 }

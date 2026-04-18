@@ -23,6 +23,15 @@ class Recipe extends Model
         'image'
     ];
 
+    public function getImageUrlAttribute(): string
+    {
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image; 
+        }
+        
+        return asset('images/placeholder.jpg'); // Default placeholder
+    }
+
     // Relationship to User (who created this recipe)
     public function user(): BelongsTo
     {
