@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <!-- Recent Recipes Section -->
+    <!-- Latest Recipes Section -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card border-0 shadow-sm rounded-4">
@@ -120,13 +120,15 @@
                             @foreach($recentRecipes as $recipe)
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-card">
-                                    @if($recipe->image)
-                                        <img src="{{ Storage::url($recipe->image) }}" 
-                                             class="card-img-top" 
-                                             alt="{{ $recipe->title }}"
-                                             style="height: 200px; object-fit: cover;">
+                                    @if ($recipe->image)
+                                        <img src="{{ $recipe->image }}" 
+                                            class="card-img-top rounded-top-4"
+                                            alt="{{ $recipe->title }}"
+                                            style="height: 300px; object-fit: cover;"
+                                            onerror="this.src='{{ asset('images/placeholder.jpg') }}'">
                                     @else
-                                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <div class="bg-light d-flex align-items-center justify-content-center rounded-top-4"
+                                            style="height: 300px;">
                                             <i class="bi bi-image fs-1 text-muted"></i>
                                         </div>
                                     @endif

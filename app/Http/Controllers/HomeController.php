@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
         // If user is admin, redirect to admin dashboard
         if (auth()->user()->is_admin == 1) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('dashboard');
         }
         
         // For regular users, show normal home page

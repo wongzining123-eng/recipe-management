@@ -11,7 +11,7 @@ function Users() {
         setLoading(true);
         setError(null);
 
-        axios.get('/admin/api/users', {
+        axios.get('/api/admin/users', {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
                 'Accept': 'application/json',
@@ -36,7 +36,7 @@ function Users() {
     const toggleRole = (id, name) => {
         if (!confirm(`Change ${name}'s role?`)) return;
 
-        axios.patch(`/admin/api/users/${id}/toggle-role`, {}, {
+        axios.patch(`/api/admin/users/${id}/toggle-role`, {}, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
                 'Accept': 'application/json',

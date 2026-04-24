@@ -24,17 +24,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class);
 });
 
-// Admin API routes
-Route::middleware(['auth', 'can:isAdmin'])->prefix('admin/api')->group(function () {
-    Route::get('/dashboard',        [AdminController::class, 'index']);
-    Route::get('/recipes',          [AdminController::class, 'recipes']);
-    Route::delete('/recipes/{recipe}', [AdminController::class, 'deleteRecipe']);
-    Route::get('/users',            [AdminController::class, 'users']);
-    Route::patch('/users/{user}/toggle-role', [AdminController::class, 'toggleRole']);
-});
+
 
 // Admin views (React app)
-Route::middleware(['auth', 'can:isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'can:isAdmin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('layouts.admin-react');
     })->name('dashboard');
@@ -48,13 +41,7 @@ Route::middleware(['auth', 'can:isAdmin'])->prefix('admin')->name('admin.')->gro
     })->name('profile');
 });
 
-// Profile API routes (React-based for admin)
-Route::middleware(['auth'])->prefix('api/profile')->group(function () {
-    Route::get('/', [App\Http\Controllers\ProfileController::class, 'getProfile']);
-    Route::put('/', [App\Http\Controllers\ProfileController::class, 'updateProfile']);
-    Route::put('/password', [App\Http\Controllers\ProfileController::class, 'updatePassword']);
-    Route::delete('/', [App\Http\Controllers\ProfileController::class, 'destroyAccount']);
-});
+
 
 // Profile routes for regular users (Blade)
 Route::middleware(['auth'])->group(function () {

@@ -24,7 +24,6 @@ class AdminController extends Controller
         $recentRecipes   = Recipe::with(['user', 'categories'])->latest()->take(5)->get();
         $recentUsers     = User::latest()->take(5)->get();
         
-        
         return response()->json([
             'totalRecipes' => $totalRecipes,
             'totalUsers' => $totalUsers,
@@ -44,29 +43,22 @@ class AdminController extends Controller
 
         $recipes = $query->latest()->paginate(15)->withQueryString();
 
-        
         return response()->json($recipes);
     }
 
-    // Delete recipe - now returns JSON
+    // Delete recipe
     public function deleteRecipe(Recipe $recipe)
     {
-        if ($recipe->image) {
-            \Storage::disk('public')->delete($recipe->image);
-        }
-
         $title = $recipe->title;
         $recipe->delete();
-
         
          return redirect()->back()->with('success', 'Recipe deleted successfully.');
     }
 
-    // Users - now returns JSON
+    // Users
     public function users(Request $request)
     {
         $users = User::withCount('recipes')->latest()->paginate(15);
-
         
         return response()->json($users);
     }
@@ -78,15 +70,14 @@ class AdminController extends Controller
             return response()->json(['error' => 'You cannot change your own role!'], 403);
         }
 
-        $oldRole     = $user->is_admin == 1 ? 'admin' : 'user';
+        $oldRole = $user->is_admin == 1 ? 'admin' : 'user';
         $user->is_admin = !$user->is_admin;
         $user->save();
-        $newRole     = $user->is_admin == 1 ? 'admin' : 'user';
+        $newRole = $user->is_admin == 1 ? 'admin' : 'user';
 
-        
         return response()->json([
             'message' => "User '{$user->name}' role changed from {$oldRole} to {$newRole}.",
-            'user'    => $user
+            'user' => $user
         ]);
     }
 }

@@ -40,7 +40,7 @@
                             @if(auth()->user()->is_admin)
                                 <!-- ADMIN NAVIGATION -->
                                 <li class="nav-item">
-                                    <a class="nav-link text-danger fw-bold" href="{{ route('admin.dashboard') }}">
+                                    <a class="nav-link text-danger fw-bold" href="{{ route('dashboard') }}">
                                         <i class="bi bi-shield-lock-fill me-1"></i>Admin Panel
                                     </a>
                                 </li>
@@ -157,10 +157,10 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     @if(auth()->user()->is_admin)
-                                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                                        <a class="dropdown-item" href="{{ route('profile') }}">
                                             <i class="bi bi-person-badge me-2"></i>Admin Profile
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
                                             <i class="bi bi-speedometer2 me-2"></i>Admin Dashboard
                                         </a>
                                         <div class="dropdown-divider"></div>

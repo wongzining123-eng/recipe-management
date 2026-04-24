@@ -11,7 +11,7 @@ function Dashboard() {
     useEffect(() => {
         let isMounted = true;
 
-        axios.get('/admin/api/dashboard', {
+        axios.get('/api/admin/dashboard', {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
                 'Accept': 'application/json',
@@ -105,58 +105,34 @@ function Dashboard() {
             </div>
         );
     }
-
+    
     const stats = [
         {
             title: 'Total Recipes',
             value: data?.totalRecipes || 0,
             emoji: '🍽️',
             accent: '#6366f1',
-            light: '#eef2ff'
+            light: '#eef2ff',
+            href: '/recipes',
+            desc: 'Add, edit or remove recipes'
         },
         {
             title: 'Total Users',
             value: data?.totalUsers || 0,
             emoji: '👤',
             accent: '#0ea5e9',
-            light: '#e0f2fe'
+            light: '#e0f2fe',
+            href: '/admin/users',
+            desc: 'Control roles and accounts'
         },
         {
             title: 'Total Categories',
             value: data?.totalCategories || 0,
             emoji: '🏷️',
             accent: '#10b981',
-            light: '#d1fae5'
-        }
-    ];
-
-    const shortcuts = [
-        {
-            title: 'Manage Recipes',
-            desc: 'Add, edit or remove recipes',
-            emoji: '🍽️',
-            href: '/recipes',  
-            accent: '#6366f1',
-            light: '#eef2ff',
-            border: '#c7d2fe'
-        },
-        {
-            title: 'Manage Users',
-            desc: 'Control roles and accounts',
-            emoji: '👤',
-            href: '/admin/users',  
-            accent: '#0ea5e9',
-            light: '#e0f2fe',
-            border: '#bae6fd'
-        },
-        {
-            title: 'Manage Categories',
-            desc: 'Organise recipe categories',
-            emoji: '🏷️',
-            href: '/categories',  
-            accent: '#10b981',
             light: '#d1fae5',
-            border: '#a7f3d0'
+            href: '/categories',
+            desc: 'Organise recipe categories'
         }
     ];
 
@@ -217,26 +193,29 @@ function Dashboard() {
                     </p>
                 </div>
 
-                {/* ── STAT CARDS ── */}
+                {/* ── STATS ── */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18, marginBottom: 32 }}>
                     {stats.map((s, i) => (
-                        <div
+                        <a
                             key={i}
-                            onMouseEnter={() => setHoveredStat(i)}
-                            onMouseLeave={() => setHoveredStat(null)}
+                            href={s.href}
+                            onMouseEnter={() => setHoveredShortcut(i)}
+                            onMouseLeave={() => setHoveredShortcut(null)}
                             style={{
+                                display: 'block',
                                 background: '#fff',
                                 borderRadius: 18,
                                 padding: '26px 28px',
                                 borderTop: `4px solid ${s.accent}`,
-                                boxShadow: hoveredStat === i
+                                boxShadow: hoveredShortcut === i
                                     ? '0 16px 48px rgba(0,0,0,0.11)'
                                     : '0 2px 16px rgba(0,0,0,0.05)',
-                                transform: hoveredStat === i ? 'translateY(-5px)' : 'none',
+                                transform: hoveredShortcut === i ? 'translateY(-5px)' : 'none',
                                 transition: 'all 0.2s ease',
-                                cursor: 'default'
-                            }}
-                        >
+                                textDecoration: 'none',
+                                cursor: 'pointer'
+                            }}>
+                            {/* ICON */}
                             <div style={{
                                 width: 46,
                                 height: 46,
@@ -250,66 +229,50 @@ function Dashboard() {
                             }}>
                                 {s.emoji}
                             </div>
-                            <div style={{ fontSize: 12, color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.2 }}>
+
+                            {/* TITLE */}
+                            <div style={{
+                                fontSize: 12,
+                                color: '#94a3b8',
+                                fontWeight: 700,
+                                textTransform: 'uppercase',
+                                letterSpacing: 1.2
+                            }}>
                                 {s.title}
                             </div>
-                            <div style={{ fontSize: 38, fontWeight: 800, color: '#1e293b', marginTop: 4, lineHeight: 1 }}>
+
+                            {/* VALUE */}
+                            <div style={{
+                                fontSize: 38,
+                                fontWeight: 800,
+                                color: '#1e293b',
+                                marginTop: 4,
+                                lineHeight: 1
+                            }}>
                                 {s.value}
                             </div>
-                        </div>
+
+                            {/* DESCRIPTION */}
+                            <div style={{
+                                marginTop: 10,
+                                fontSize: 12,
+                                color: '#64748b'
+                            }}>
+                                {s.desc}
+                            </div>
+
+                            {/* CTA */}
+                            <div style={{
+                                marginTop: 10,
+                                fontSize: 12,
+                                color: '#94a3b8'
+                            }}>
+                                Open →
+                            </div>
+                        </a>
                     ))}
                 </div>
 
-                {/* ── QUICK ACTIONS ── */}
-                {shortcuts.map((s, i) => (
-                    <a
-                        key={i}
-                        href={s.href}
-                        onMouseEnter={() => setHoveredShortcut(i)}
-                        onMouseLeave={() => setHoveredShortcut(null)}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 14,
-                            padding: '16px 18px',
-                            borderRadius: 14,
-                            border: `2px solid ${hoveredShortcut === i ? s.border : '#f1f5f9'}`,
-                            background: hoveredShortcut === i ? s.light : '#fafafa',
-                            textDecoration: 'none',
-                            transition: 'all 0.2s ease',
-                            transform: hoveredShortcut === i ? 'translateY(-2px)' : 'none',
-                            boxShadow: hoveredShortcut === i ? '0 6px 24px rgba(0,0,0,0.07)' : 'none'
-                        }}
-                    >
-                        <div style={{
-                            width: 42,
-                            height: 42,
-                            borderRadius: 11,
-                            background: s.light,
-                            border: `1.5px solid ${s.border}`,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: 20,
-                            flexShrink: 0
-                        }}>
-                            {s.emoji}
-                        </div>
-
-                        <div style={{ minWidth: 0 }}>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: s.accent }}>
-                                {s.title}
-                            </div>
-                            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
-                                {s.desc}
-                            </div>
-                        </div>
-
-                        <div style={{ marginLeft: 'auto', color: '#cbd5e1', fontSize: 20 }}>
-                            ›
-                        </div>
-                    </a>
-                ))}
                 {/* ── RECENT SECTION ── */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
 

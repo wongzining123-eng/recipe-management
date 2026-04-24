@@ -98,11 +98,11 @@
                             <img src="{{ $recipe->image }}" 
                                 class="card-img-top rounded-top-4"
                                 alt="{{ $recipe->title }}"
-                                style="height: 200px; object-fit: cover;"
+                                style="height: 300px; object-fit: cover;"
                                 onerror="this.src='{{ asset('images/placeholder.jpg') }}'">
                         @else
                             <div class="bg-light d-flex align-items-center justify-content-center rounded-top-4"
-                                style="height: 200px;">
+                                style="height: 300px;">
                                 <i class="bi bi-image fs-1 text-muted"></i>
                             </div>
                         @endif
@@ -167,12 +167,12 @@
                             @endauth
 
                             @can('isAdmin')
-                                <form action="{{ url('/admin/api/recipes/' . $recipe->id) }}" 
+                                <form action="{{ url('/api/admin/recipes/' . $recipe->id) }}" 
                                     method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete this recipe?')">
                                     @csrf
                                     @method('DELETE')
-
+                                    <br/>
                                     <button type="submit" class="btn btn-danger btn-sm rounded-pill">
                                         <i class="bi bi-trash me-1"></i> Delete
                                     </button>
