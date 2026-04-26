@@ -32,7 +32,7 @@ class AdminController extends Controller
             'recentUsers' => $recentUsers,
         ]);
     }
-    // Recipes - now returns JSON
+    // Recipes
     public function recipes(Request $request)
     {
         $query = Recipe::with(['user', 'categories']);

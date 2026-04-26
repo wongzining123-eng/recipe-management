@@ -99,11 +99,6 @@ class RecipeController extends Controller
             'prep_time', 'cook_time', 'servings',
         ]);
 
-        if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($recipe->image);
-            $data['image'] = $request->file('image')->store('recipes', 'public');
-        }
-
         $recipe->update($data);
 
         $recipe->categories()->sync($request->categories ?? []);
@@ -115,8 +110,6 @@ class RecipeController extends Controller
     public function destroy(Recipe $recipe): RedirectResponse
     {
         $this->authorize('delete', $recipe); 
-
-        Storage::disk('public')->delete($recipe->image);
 
         $recipe->delete();
 

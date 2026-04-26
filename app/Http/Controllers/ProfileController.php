@@ -57,13 +57,6 @@ class ProfileController extends Controller
             'password' => 'required|current_password',
         ]);
 
-        // Delete user's recipes images
-        foreach ($user->recipes as $recipe) {
-            if ($recipe->image) {
-                \Storage::disk('public')->delete($recipe->image);
-            }
-        }
-
         Auth::logout();
         $user->delete();
 
@@ -72,7 +65,7 @@ class ProfileController extends Controller
 
     // ==================== API METHODS (for React admin) ====================
     
-    // Get profile data (API)
+    // Get profile data 
     public function getProfile()
     {
         $user = Auth::user();
@@ -86,7 +79,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    // Update profile (API)
+    // Update profile 
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
@@ -112,7 +105,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    // Update password (API)
+    // Update password 
     public function updatePassword(Request $request)
     {
         $user = Auth::user();
@@ -137,7 +130,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    // Delete account (API)
+    // Delete account 
     public function destroyAccount(Request $request)
     {
         $user = Auth::user();
@@ -145,13 +138,6 @@ class ProfileController extends Controller
         $request->validate([
             'password' => 'required|current_password',
         ]);
-
-        // Delete user's recipes images
-        foreach ($user->recipes as $recipe) {
-            if ($recipe->image) {
-                \Storage::disk('public')->delete($recipe->image);
-            }
-        }
 
         Auth::logout();
         $user->delete();
