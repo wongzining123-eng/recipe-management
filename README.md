@@ -1,6 +1,3 @@
-## Video Presentation Link
-https://drive.google.com/file/d/1246jOOUfM_FXdVRD5wpPdY6xFqzUrVlI/view?usp=drive_link
-
 ## Before coding
 
 ## 1. Clone
